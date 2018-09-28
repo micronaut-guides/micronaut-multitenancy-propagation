@@ -1,4 +1,6 @@
-sudo: false
+addons:
+  chrome: stable
+sudo: required
 cache:
   directories:
   - "$HOME/.gradle"
