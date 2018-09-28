@@ -16,6 +16,6 @@ gateway $ ./gradlew run
 18:28:35.723 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 707ms. Server Running: http://localhost:8080
 ----
 
-You can visit `http://localhost:8080` and change tenant and see the data change:
+You can visit `http://localhost:8080` and change tenant and see the book list change:
 
 image::multitenancy.gif[]
