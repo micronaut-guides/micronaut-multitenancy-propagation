@@ -4,6 +4,7 @@ import geb.spock.GebSpec
 import io.micronaut.context.ApplicationContext
 import io.micronaut.runtime.server.EmbeddedServer
 import spock.lang.AutoCleanup
+import spock.lang.IgnoreIf
 import spock.lang.Shared
 
 class HomePageSpec extends GebSpec {
@@ -11,6 +12,7 @@ class HomePageSpec extends GebSpec {
     @AutoCleanup
     EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer)
 
+    @IgnoreIf({ !(sys['gen.env'] in ['chrome', 'firefox']) })
     def "verify tenant can be selected works"() {
         given:
         browser.baseUrl = "http://localhost:${embeddedServer.port}"

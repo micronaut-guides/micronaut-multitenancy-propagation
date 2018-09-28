@@ -5,6 +5,7 @@ import io.micronaut.context.ApplicationContext
 import io.micronaut.http.client.RxHttpClient
 import org.junit.Assume
 import spock.lang.AutoCleanup
+import spock.lang.IgnoreIf
 import spock.lang.Shared
 
 class AcceptanceSpec extends GebSpec implements MicroserviceHealth {
@@ -17,6 +18,7 @@ class AcceptanceSpec extends GebSpec implements MicroserviceHealth {
     @AutoCleanup
     RxHttpClient client = applicationContext.createBean(RxHttpClient, 'http://localhost:8080')
 
+    @IgnoreIf({ !(sys['gen.env'] in ['chrome', 'firefox']) })
     def "verifies three microservices collaborate together with JWT authentication"() {
 
         given:
