@@ -1,0 +1,8 @@
+Lets describe the microservices you are going to build through the tutorial.
+
+* `gateway` - A microservice which resolves a Tenant ID with a Cookie and propagates the Tenant ID to outgoing requests via HTTP Header.
+* `books` - A microservice which uses http://gorm.grails.org[GORM] to provide data access layer with multitenacy support.
+
+The next diagram illustrates the flow:
+
+image::tokenpropagation.svg[]

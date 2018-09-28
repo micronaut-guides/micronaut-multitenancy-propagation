@@ -1,0 +1,28 @@
+gettingStarted: 
+  title: Getting Started
+  requirements: What you will need
+  solution: Solution
+usingSnapshotVersion:
+  title: Using Snapshot Version
+writingTheApp:
+  title: Writing the App
+  gateway:
+    title: Gateway
+    multitenancyconfiguration: Multitenancy Configuration
+    filter: Http Server Filter
+    client: Http Client
+    homecontroller: Home Controller
+    cookieRedirect: Cookie Redirect
+    tests: Tests
+  books:
+    title: Books Microservice
+    gorm: GORM
+    domain: Domain
+    dataservice: Data Service
+    controller: Controller
+    bootstrap: Application Startup event
+    booktests: Tests
+runningTheApp:
+  title: Running the App
+nextSteps:
+  title: Next Steps

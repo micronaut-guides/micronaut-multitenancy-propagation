@@ -1,0 +1,34 @@
+Create an interface to encapsulate the communication with the `books` microservice which we will create shortly.
+
+[source,java]
+.gateway/src/main/java/example/micronaut/BookFetcher.java
+----
+include::{sourceDir}/gateway/src/main/java/example/micronaut/BookFetcher.java[]
+----
+
+Create a https://docs.micronaut.io/snapshot/guide/index.html#clientAnnotation[declarative HTTP client]:
+
+[source,java]
+.gateway/src/main/java/example/micronaut/BookClient.java
+----
+include::{sourceDir}/gateway/src/main/java/example/micronaut/BookClient.java[]
+----
+
+<1> The `@Client` annotation uses a service id which matches the regular expression we defined in the propagation configuration.
+<2> We don't want to load this bean in the `test` environment.
+<3> We configure the path `/books` and HTTP method of the endpoint exposed by `books`.
+
+
+Configure the urls for the service id `books`. Modify `application.yml`
+
+[source,java]
+.gateway/src/main/resources/application.yml
+----
+micronaut:
+...
+
+include::{sourceDir}/gateway/src/main/resources/application.yml[tag=http-services]
+----
+
+<1> Same id we used with `@Client`
+<2> url where the `books` service will reside.

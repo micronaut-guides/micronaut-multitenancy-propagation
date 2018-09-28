@@ -1,0 +1,7 @@
+Create a tests which verifies the behaviour. We received the books belonging to the tenant which we send via an HTTP header.
+
+[source,java]
+.books/src/test/groovy/example/micronaut/BookControllerSpec.groovy
+----
+include::{sourceDir}/books/src/test/groovy/example/micronaut/BookControllerSpec.groovy[]
+----

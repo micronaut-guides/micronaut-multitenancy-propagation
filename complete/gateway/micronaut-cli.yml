@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: examppe.micronaut
+---
+testFramework: junit
+sourceLanguage: java

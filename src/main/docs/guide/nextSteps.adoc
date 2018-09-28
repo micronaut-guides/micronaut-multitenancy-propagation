@@ -1,0 +1,1 @@
+Read more about https://docs.micronaut.io/snapshot/guide/index.html#multitenancy[Multitenancy] inside Micronaut and http://gorm.grails.org/latest/hibernate/manual/index.html#multiTenancy[GORM Multitenancy support].

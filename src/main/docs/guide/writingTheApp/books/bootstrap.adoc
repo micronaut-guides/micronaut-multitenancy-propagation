@@ -1,0 +1,17 @@
+To listen to an event, register a bean that implements `ApplicationEventListener` where the generic type is the type of event the listener should be executed for.
+
+We want to listen for the `StartupEvent` to save some elements in the databases when the app starts:
+
+
+[source, groovy]
+.books/src/main/groovy/example/micronaut/Bootstrap.groovy
+----
+include::{sourceDir}/books/src/main/groovy/example/micronaut/Bootstrap.groovy[]
+----
+
+<1> To register a Singleton in Micronaut’s application context, annotate your class with `javax.inject.Singleton`.
+<2> Listen to `StartupEvent`.
+<3> Field injection
+<4> You can specify the tenant ID with the `Tenants.withId` method.
+
+

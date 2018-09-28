@@ -1,0 +1,1 @@
+We are going to write the app first without token propagation. Then we are going to configure token propagation and you will see how much code we can get rid of.

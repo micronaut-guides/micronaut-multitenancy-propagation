@@ -1,0 +1,21 @@
+Run both microservices:
+
+[source,bash]
+----
+books $ ./gradlew run
+> Task :complete/books:run
+18:29:26.500 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 671ms. Server Running: http://localhost:8081
+<=========----> 75% EXECUTING [10s]
+----
+
+[source,bash]
+----
+gateway $ ./gradlew run
+
+> Task :complete/gateway:run
+18:28:35.723 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 707ms. Server Running: http://localhost:8080
+----
+
+You can visit `http://localhost:8080` and change tenant and see the data change:
+
+image::multitenancy.gif[]

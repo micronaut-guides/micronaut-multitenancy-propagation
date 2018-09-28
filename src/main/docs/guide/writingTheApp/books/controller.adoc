@@ -1,0 +1,10 @@
+Create a controller to expose the `/books` endpoint.
+
+[source, groovy]
+.books/src/main/groovy/example/micronaut/BookController.groovy
+----
+include::{sourceDir}/books/src/main/groovy/example/micronaut/BookController.groovy[]
+----
+
+<1> Annotate with `io.micronaut.http.annotation.Controller` to designate a class as a Micronaut’s controller.
+<2> Constructor dependency injection.

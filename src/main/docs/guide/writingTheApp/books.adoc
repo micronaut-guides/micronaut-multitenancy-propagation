@@ -1,0 +1,6 @@
+Create the microservice:
+
+[source, bash]
+----
+mn create-app example.micronaut.books --lang groovy
+----

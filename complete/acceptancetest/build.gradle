@@ -1,0 +1,57 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        //tag::buildscriptDependenciesWebdriverBinaries[]
+        classpath "gradle.plugin.com.energizedwork.webdriver-binaries:webdriver-binaries-gradle-plugin:$webdriverBinariesVersion"
+//end::buildscriptDependenciesWebdriverBinaries[]
+    }
+}
+
+apply plugin: "groovy"
+apply plugin:"com.energizedwork.webdriver-binaries"
+
+repositories {
+    mavenLocal()
+    jcenter()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    testCompile("org.spockframework:spock-core:$spockVersion") {
+        exclude group: "org.codehaus.groovy", module: "groovy-all"
+    }
+
+    testCompile "io.micronaut:runtime-groovy:$micronautVersion"
+    testCompile "io.micronaut:http-client:$micronautVersion"
+
+    testCompile "io.micronaut:security-jwt:$micronautVersion"
+
+    //tag::geb[]
+    testCompile "org.gebish:geb-spock:$gebVersion"
+    testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
+    testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
+    testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
+    testCompile "org.seleniumhq.selenium:selenium-api:$seleniumVersion"
+    //tag::geb[]
+
+    testCompile project(":complete/gebpages")
+
+}
+
+//tag::webdriverBinaries[]
+webdriverBinaries {
+    chromedriver '2.42'
+    geckodriver '0.22.0'
+}
+//end::webdriverBinaries[]
+
+//tag::taskWithTypeTest[]
+tasks.withType(Test) {
+    systemProperty "geb.env", System.getProperty('geb.env')
+    systemProperty "webdriver.chrome.driver", System.getProperty('webdriver.chrome.driver')
+    systemProperty "webdriver.gecko.driver", System.getProperty('webdriver.gecko.driver')
+}
+//end::taskWithTypeTest[]

@@ -1,0 +1,23 @@
+
+`HomePageFilter` redirects to `/tenant` when the tenant ID is not resolved. Create `TenantController` to handle that endpoint:
+
+[source,java]
+.gateway/src/main/java/example/micronaut/TenantController.java
+----
+include::{sourceDir}/gateway/src/main/java/example/micronaut/TenantController.java[]
+----
+
+<1> The class is defined as a controller with the `@Controller` annotation mapped to the path `/tenant`.
+<2> Constructor injection of `CookieTenantResolverConfiguration`. A configuration object which is used by the `CookieTenantResolver``
+<3> Use `@View` annotation to indicate the view name which should be used to render a view for the route.
+<4> You can specify the HTTP verb that a controller’s action responds to. To respond to a GET request, use the `io.micronaut.http.annotation.Get` annotation.
+<5> Define a path variable `tenant`.
+<6> Do a 302 redirect to `/` setting a cookie with the selected tenant ID.
+
+The previous controller renders the `tenant` view.
+
+[source,java]
+.gateway/src/main/resources/views/tenant.hbs
+----
+include::{sourceDir}/gateway/src/main/resources/views/tenant.hbs[]
+----

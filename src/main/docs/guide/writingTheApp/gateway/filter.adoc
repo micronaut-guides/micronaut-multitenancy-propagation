@@ -1,0 +1,13 @@
+
+The Micronaut HTTP server supports the ability to apply filters to request/response processing in a similar, but reactive, way to Servlet filters in traditional Java applications.
+
+Create a filter to redirect to `/tenant` if you attempt to access `/` without a cookie. That it is to say, in a situation where the application is not able to resolve the tenant ID.
+
+[source,java]
+.gateway/src/main/java/example/micronaut/HomePageFilter.java
+----
+include::{sourceDir}/gateway/src/main/java/example/micronaut/HomePageFilter.java[]
+----
+
+<1> You can match only a subset of paths with a server filter.
+<2> Constructor injection.

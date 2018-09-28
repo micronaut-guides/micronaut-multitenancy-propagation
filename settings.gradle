@@ -1,0 +1,4 @@
+include 'complete/books'
+include 'complete/gebpages'
+include 'complete/gateway'
+include 'complete/acceptancetest'

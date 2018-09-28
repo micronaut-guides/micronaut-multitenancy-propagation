@@ -1,0 +1,10 @@
+GORM Data Services take the work out of implemented service layer logic by adding the ability to automatically implement abstract classes or interfaces using GORM logic.
+
+[source, groovy]
+.books/src/main/groovy/example/micronaut/BookService.groovy
+----
+include::{sourceDir}/books/src/main/groovy/example/micronaut/BookService.groovy[]
+----
+
+<1> Resolve the current tenant for the context of a class or method
+<2> The `@Service` annotation is an AST transformation that will automatically implement the service for you.

@@ -1,0 +1,14 @@
+micronaut:
+    application:
+        name: userecho
+    server:
+        port: 8081
+    security:
+        enabled: true
+        token:
+            jwt:
+                enabled: true
+                signatures:
+                    secret:
+                        validation:
+                            secret: pleaseChangeThisSecretForANewOne

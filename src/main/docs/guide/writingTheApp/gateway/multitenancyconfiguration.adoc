@@ -1,0 +1,24 @@
+Multi-Tenancy, as it relates to software development, is when a single instance of an application is used to service multiple clients (tenants) in a way that each tenants' data is isolated from the other.
+
+To use the Micronaut’s multitenancy capabilities you must have the multitenancy dependency on your classpath. For example in `build.gradle:`
+
+[source,java]
+.gateway/build.gradle
+----
+include::{sourceDir}/gateway/build.gradle[tag=multitenancy]
+----
+
+[source,java]
+.gateway/src/main/resources/application.yml
+----
+micronaut:
+...
+
+include::{sourceDir}/gateway/src/main/resources/application.yml[tag=multitenancy]
+
+----
+
+<1> Enable tenant propagation.
+<2> Propagate the resolved tenant ID only in requests going to a particular set of services. In our example, we define a regex to match the service id `books`.
+<3> In the gateway we use the https://docs.micronaut.io/snapshot/api/io/micronaut/multitenancy/tenantresolver/CookieTenantResolver.html[CookieTenantResolver] which resolves the current tenant from an HTTP cookie.
+<4> We propagate the tenant with a https://docs.micronaut.io/snapshot/api/io/micronaut/multitenancy/writer/HttpHeaderTenantWriter.html[HttpHeaderTenantWriter] which writes the current tenant to a HTTP Header.

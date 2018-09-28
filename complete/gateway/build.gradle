@@ -1,0 +1,114 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.15"
+//tag::buildscriptDependenciesWebdriverBinaries[]
+        classpath "gradle.plugin.com.energizedwork.webdriver-binaries:webdriver-binaries-gradle-plugin:$webdriverBinariesVersion"
+//end::buildscriptDependenciesWebdriverBinaries[]
+    }
+}
+
+version "0.1"
+group "examppe.micronaut"
+
+apply plugin:"io.spring.dependency-management"
+apply plugin:"com.github.johnrengelman.shadow"
+apply plugin:"application"
+apply plugin:"groovy"
+apply plugin:"net.ltgt.apt-eclipse"
+apply plugin:"net.ltgt.apt-idea"
+//tag::applyPluginWebdriverBinaries[]
+apply plugin:"com.energizedwork.webdriver-binaries"
+//end::applyPluginWebdriverBinaries[]
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://jcenter.bintray.com" }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "io.micronaut:bom:$micronautVersion"
+    }
+}
+
+dependencies {
+    annotationProcessor "io.micronaut:inject-java"
+    compile "io.micronaut:inject"
+    compile "io.micronaut:runtime"
+    compile "io.micronaut:http-client"
+    compile "io.micronaut:http-server-netty"
+    compileOnly "io.micronaut:inject-java"
+    runtime "ch.qos.logback:logback-classic:1.2.3"
+    testCompile "io.micronaut:inject-java"
+
+    //tag::views[]
+    compile "io.micronaut:views"
+    //end::views[]
+
+    //tag::validator[]
+    compile "io.micronaut.configuration:hibernate-validator"
+    //end::validator[]
+
+    //tag::handlebars[]
+    runtime "com.github.jknack:handlebars:4.1.0"
+    //end::handlebars[]
+
+    //tag::spock[]
+    testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    testCompile "org.spockframework:spock-core:$spockVersion"
+    //end::spock[]
+
+    //tag::inject-groovy[]
+    testCompile "io.micronaut:inject-groovy"
+    //end::inject-groovy[]
+
+    //tag::geb[]
+    testCompile "org.gebish:geb-spock:$gebVersion"
+    testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
+    testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
+    testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
+    testCompile "org.seleniumhq.selenium:selenium-api:$seleniumVersion"
+    //tag::geb[]
+
+    //tag::multitenancy[]
+    compile "io.micronaut:multitenancy"
+    //end::multitenancy[]
+
+    //tag::management[]
+    runtime "io.micronaut:management"
+    //end::management[]
+
+    testCompile project(":complete/gebpages")
+}
+
+shadowJar {
+    mergeServiceFiles()
+}
+
+run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
+
+mainClassName = "example.micronaut.Application"
+compileJava.options.compilerArgs += '-parameters'
+compileTestJava.options.compilerArgs += '-parameters'
+
+//tag::webdriverBinaries[]
+webdriverBinaries {
+    chromedriver '2.42'
+    geckodriver '0.22.0'
+}
+//end::webdriverBinaries[]
+
+//tag::taskWithTypeTest[]
+tasks.withType(Test) {
+    systemProperty "geb.env", System.getProperty('geb.env')
+    systemProperty "webdriver.chrome.driver", System.getProperty('webdriver.chrome.driver')
+    systemProperty "webdriver.gecko.driver", System.getProperty('webdriver.gecko.driver')
+}
+//end::taskWithTypeTest[]

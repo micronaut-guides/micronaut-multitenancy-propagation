@@ -1,0 +1,17 @@
+http://gorm.grails.org[GORM] is a powerful Groovy-based data access toolkit for the JVM. To use it in Micronaut add the following dependencies to `build.gradle`:
+
+[source, groovy]
+.books/build.gradle
+----
+include::{sourceDir}/books/build.gradle[tag=gorm]
+----
+
+Configure multiple data sources as described in the http://gorm.grails.org/latest/hibernate/manual/index.html#multipleDataSources[GORM Multiple Data Sources] documentation.
+
+[source, yaml]
+.books/src/main/resources/application.yml
+----
+include::{sourceDir}/books/src/main/resources/application.yml[tag=datasources]
+----
+
+

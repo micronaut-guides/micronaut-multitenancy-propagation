@@ -1,0 +1,39 @@
+The `views` module provides support for view rendering on the server side and does so by rendering views on the I/O thread pool in order to avoid blocking the Netty event loop. Add the `views` dependency to  `build.gradle:`
+
+[source,java]
+.gateway/build.gradle
+----
+include::{sourceDir}/gateway/build.gradle[tag=views]
+----
+
+Micronaut includes https://docs.micronaut.io/snapshot/api/io/micronaut/views/handlebars/HandlebarsViewsRenderer.html[HandlebarsViewsRenderer] which uses the http://jknack.github.io/handlebars.java/[Handlebars.java] project.
+
+In addition to the `views` dependency, add the following dependency to `build.gradle`
+
+[source,java]
+.gateway/build.gradle
+----
+include::{sourceDir}/gateway/build.gradle[tag=handlebars]
+----
+
+Create a view which we will use in the `HomeController`.
+
+[source,java]
+.gateway/src/main/resources/views/home.hbs
+----
+include::{sourceDir}/gateway/src/main/resources/views/home.hbs[]
+----
+
+Create a `HomeController` which invokes `BookClient::fetchBooks()` and renders the books using the previous handlebar view.
+
+[source,java]
+.gateway/src/main/java/example/micronaut/HomeController.java
+----
+include::{sourceDir}/gateway/src/main/java/example/micronaut/HomeController.java[]
+----
+
+<1> Annotate with `io.micronaut.http.annotation.Controller` to designate a class as a Micronaut’s controller.
+<2> Constructor dependency injection
+<3> Use `@View` annotation to indicate the view name which should be used to render a view for the route.
+<4> You can specify the HTTP verb that a controller’s action responds to. To respond to a GET request, use the `io.micronaut.http.annotation.Get` annotation.
+<5> A RxJava http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html[Single] is returned with the value read from the server.

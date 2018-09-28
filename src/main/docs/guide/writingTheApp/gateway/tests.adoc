@@ -1,0 +1,26 @@
+
+Add `inject-groovy` as a `testCompile` dependency to define beans in Groovy in the test classpath.
+
+[source,groovy]
+.gateway/build.gradle
+----
+include::{sourceDir}/gateway/build.gradle[tag=inject-groovy]
+----
+
+Provide a `BookFetcher` bean replacement for the Test environment.
+
+[source,java]
+.gateway/src/test/groovy/example/micronaut/MockBookFetcher.groovy
+----
+include::{sourceDir}/gateway/src/test/groovy/example/micronaut/MockBookFetcher.groovy[]
+----
+
+Create a tests which verifies the flow using Geb.
+
+[source,java]
+.gateway/src/test/groovy/example/micronaut/HomePageSpec.groovy
+----
+include::{sourceDir}/gateway/src/test/groovy/example/micronaut/HomePageSpec.groovy[]
+----
+
+<1> To run the application from a unit test you can use the http://docs.micronaut.io/snapshot/api/io/micronaut/runtime/server/EmbeddedServer.html[EmbeddedServer] interface.
