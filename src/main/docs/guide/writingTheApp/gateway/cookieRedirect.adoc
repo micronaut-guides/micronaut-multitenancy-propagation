@@ -16,7 +16,7 @@ include::{sourceDir}/gateway/src/main/java/example/micronaut/TenantController.ja
 
 The previous controller renders the `tenant` view.
 
-[source,java]
+[source,html]
 .gateway/src/main/resources/views/tenant.hbs
 ----
 include::{sourceDir}/gateway/src/main/resources/views/tenant.hbs[]

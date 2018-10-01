@@ -2,13 +2,13 @@ Multi-Tenancy, as it relates to software development, is when a single instance 
 
 To use the Micronaut’s multitenancy capabilities you must have the multitenancy dependency on your classpath. For example in `build.gradle:`
 
-[source,java]
+[source,groovy]
 .gateway/build.gradle
 ----
 include::{sourceDir}/gateway/build.gradle[tag=multitenancy]
 ----
 
-[source,java]
+[source,yml]
 .gateway/src/main/resources/application.yml
 ----
 micronaut:

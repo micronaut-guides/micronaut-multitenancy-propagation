@@ -10,7 +10,7 @@ import spock.lang.Shared
 class HomePageSpec extends GebSpec {
     @Shared
     @AutoCleanup
-    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer)
+    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer) // <1>
 
     @IgnoreIf({ !(sys['geb.env'] in ['chrome', 'firefox']) })
     def "verify tenant can be selected works"() {

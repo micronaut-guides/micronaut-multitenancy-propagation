@@ -21,7 +21,7 @@ include::{sourceDir}/gateway/src/main/java/example/micronaut/BookClient.java[]
 
 Configure the urls for the service id `books`. Modify `application.yml`
 
-[source,java]
+[source,yml]
 .gateway/src/main/resources/application.yml
 ----
 micronaut:
