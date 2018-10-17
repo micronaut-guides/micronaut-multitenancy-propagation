@@ -24,10 +24,10 @@ dependencies {
         exclude group: "org.codehaus.groovy", module: "groovy-all"
     }
 
-    testCompile "io.micronaut:runtime-groovy:$micronautVersion"
-    testCompile "io.micronaut:http-client:$micronautVersion"
+    testCompile "io.micronaut:micronaut-runtime-groovy:$micronautVersion"
+    testCompile "io.micronaut:micronaut-http-client:$micronautVersion"
 
-    testCompile "io.micronaut:security-jwt:$micronautVersion"
+    testCompile "io.micronaut:micronaut-security-jwt:$micronautVersion"
 
     //tag::geb[]
     testCompile "org.gebish:geb-spock:$gebVersion"

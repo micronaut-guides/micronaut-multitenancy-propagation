@@ -34,26 +34,26 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom "io.micronaut:bom:$micronautVersion"
+        mavenBom "io.micronaut:micronaut-bom:$micronautVersion"
     }
 }
 
 dependencies {
-    annotationProcessor "io.micronaut:inject-java"
-    compile "io.micronaut:inject"
-    compile "io.micronaut:runtime"
-    compile "io.micronaut:http-client"
-    compile "io.micronaut:http-server-netty"
-    compileOnly "io.micronaut:inject-java"
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+    compile "io.micronaut:micronaut-inject"
+    compile "io.micronaut:micronaut-runtime"
+    compile "io.micronaut:micronaut-http-client"
+    compile "io.micronaut:micronaut-http-server-netty"
+    compileOnly "io.micronaut:micronaut-inject-java"
     runtime "ch.qos.logback:logback-classic:1.2.3"
-    testCompile "io.micronaut:inject-java"
+    testCompile "io.micronaut:micronaut-inject-java"
 
     //tag::views[]
-    compile "io.micronaut:views"
+    compile "io.micronaut:micronaut-views"
     //end::views[]
 
     //tag::validator[]
-    compile "io.micronaut.configuration:hibernate-validator"
+    compile "io.micronaut.configuration:micronaut-hibernate-validator"
     //end::validator[]
 
     //tag::handlebars[]
@@ -66,7 +66,7 @@ dependencies {
     //end::spock[]
 
     //tag::inject-groovy[]
-    testCompile "io.micronaut:inject-groovy"
+    testCompile "io.micronaut:micronaut-inject-groovy"
     //end::inject-groovy[]
 
     //tag::geb[]
@@ -78,11 +78,11 @@ dependencies {
     //tag::geb[]
 
     //tag::multitenancy[]
-    compile "io.micronaut:multitenancy"
+    compile "io.micronaut:micronaut-multitenancy"
     //end::multitenancy[]
 
     //tag::management[]
-    runtime "io.micronaut:management"
+    runtime "io.micronaut:micronaut-management"
     //end::management[]
 
     testCompile project(":complete/gebpages")

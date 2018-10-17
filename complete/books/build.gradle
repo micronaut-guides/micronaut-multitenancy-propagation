@@ -29,31 +29,31 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom "io.micronaut:bom:$micronautVersion"
+        mavenBom "io.micronaut:micronaut-bom:$micronautVersion"
     }
 }
 
 dependencies {
-    compile "io.micronaut:runtime-groovy"
-    compile "io.micronaut:http-client"
-    compile "io.micronaut:http-server-netty"
-    compileOnly "io.micronaut:inject-groovy"
+    compile "io.micronaut:micronaut-runtime-groovy"
+    compile "io.micronaut:micronaut-http-client"
+    compile "io.micronaut:micronaut-http-server-netty"
+    compileOnly "io.micronaut:micronaut-inject-groovy"
     runtime "ch.qos.logback:logback-classic:1.2.3"
-    testCompile "io.micronaut:inject-groovy"
+    testCompile "io.micronaut:micronaut-inject-groovy"
     testCompile("org.spockframework:spock-core:1.1-groovy-2.4") {
         exclude group: "org.codehaus.groovy", module: "groovy-all"
     }
 
     //tag::management[]
-    runtime "io.micronaut:management"
+    runtime "io.micronaut:micronaut-management"
     //end::management[]
 
     //tag::multitenancy-gorm[]
-    runtime "io.micronaut.configuration:multitenancy-gorm"
+    runtime "io.micronaut.configuration:micronaut-multitenancy-gorm"
     //end::multitenancy-gorm[]
 
     //tag::gorm[]
-    compile("io.micronaut.configuration:hibernate-gorm") {
+    compile("io.micronaut.configuration:micronaut-hibernate-gorm") {
         exclude group: 'org.grails', module: 'grails-datastore-gorm-hibernate5'
     }
     compile "org.grails:grails-datastore-gorm-hibernate5:6.1.9.RELEASE"
