@@ -9,9 +9,11 @@ import io.micronaut.security.authentication.UsernamePasswordCredentials
 import io.micronaut.security.token.jwt.render.BearerAccessRefreshToken
 import org.junit.Assume
 import spock.lang.AutoCleanup
+import spock.lang.IgnoreIf
 import spock.lang.Shared
 import spock.lang.Specification
 
+@IgnoreIf({ System.getenv("TRAVIS") })
 class AcceptanceSpec extends Specification implements MicroserviceHealth {
 
     @Shared
