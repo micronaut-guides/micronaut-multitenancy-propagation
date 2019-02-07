@@ -18,7 +18,7 @@ class AcceptanceSpec extends GebSpec implements MicroserviceHealth {
     @AutoCleanup
     RxHttpClient client = applicationContext.createBean(RxHttpClient, 'http://localhost:8080')
 
-    @IgnoreIf({ !(sys['gen.env'] in ['chrome', 'firefox']) })
+    @IgnoreIf({ !(sys['geb.env'] in ['chrome', 'firefox']) })
     def "verifies three microservices collaborate together with JWT authentication"() {
 
         given:
