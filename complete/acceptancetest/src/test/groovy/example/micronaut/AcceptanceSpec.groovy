@@ -8,6 +8,7 @@ import spock.lang.AutoCleanup
 import spock.lang.IgnoreIf
 import spock.lang.Shared
 
+@IgnoreIf({ System.getenv("TRAVIS") })
 class AcceptanceSpec extends GebSpec implements MicroserviceHealth {
 
     @Shared
