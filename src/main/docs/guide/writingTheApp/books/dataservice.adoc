@@ -1,4 +1,4 @@
-GORM Data Services take the work out of implemented service layer logic by adding the ability to automatically implement abstract classes or interfaces using GORM logic.
+http://gorm.grails.org/latest/hibernate/manual/index.html#dataServices[GORM Data Services] take the work out of implemented service layer logic by adding the ability to automatically implement abstract classes or interfaces using GORM logic.
 
 [source, groovy]
 .books/src/main/groovy/example/micronaut/BookService.groovy
