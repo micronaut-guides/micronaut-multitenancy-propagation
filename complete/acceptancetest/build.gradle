@@ -1,21 +1,21 @@
-buildscript {
-    repositories {
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-    dependencies {
-        //tag::buildscriptDependenciesWebdriverBinaries[]
-        classpath "gradle.plugin.com.energizedwork.webdriver-binaries:webdriver-binaries-gradle-plugin:$webdriverBinariesVersion"
-//end::buildscriptDependenciesWebdriverBinaries[]
-    }
+plugins {
+    //tag::buildscriptDependenciesWebdriverBinaries[]
+    id "com.energizedwork.webdriver-binaries" version "1.4"
+    //end::buildscriptDependenciesWebdriverBinaries[]
+    id 'groovy'
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
 }
-
-apply plugin: "groovy"
-apply plugin:"com.energizedwork.webdriver-binaries"
 
 repositories {
     mavenLocal()
     jcenter()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "io.micronaut:micronaut-bom:$micronautVersion"
+    }
 }
 
 dependencies {
@@ -24,10 +24,10 @@ dependencies {
         exclude group: "org.codehaus.groovy", module: "groovy-all"
     }
 
-    testCompile "io.micronaut:micronaut-runtime-groovy:$micronautVersion"
-    testCompile "io.micronaut:micronaut-http-client:$micronautVersion"
+    testCompile "io.micronaut:micronaut-runtime-groovy"
+    testCompile "io.micronaut:micronaut-http-client"
 
-    testCompile "io.micronaut:micronaut-security-jwt:$micronautVersion"
+    testCompile "io.micronaut:micronaut-security-jwt"
 
     //tag::geb[]
     testCompile "org.gebish:geb-spock:$gebVersion"
@@ -38,7 +38,6 @@ dependencies {
     //tag::geb[]
 
     testCompile project(":complete/gebpages")
-
 }
 
 //tag::webdriverBinaries[]
