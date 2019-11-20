@@ -1,24 +1,24 @@
 micronaut:
-    application:
-        name: gateway
-    server:
-        port: 8080 # <1>
-    security:
-        enabled: true # <2>
-        endpoints:
-            login:
-                enabled: true # <3>
-            oauth:
-                enabled: true # <4>
-        token:
-            jwt:
-                enabled: true # <5>
-                signatures:
-                    secret:
-                        generator: # <6>
-                            secret: pleaseChangeThisSecretForANewOne # <7>
-    http:
-        services:
-            userecho: # <8>
-                urls:
-                - "http://localhost:8081" # <9>
+  application:
+    name: gateway
+  server:
+    port: 8080 # <1>
+  security:
+    enabled: true # <2>
+    endpoints:
+      login:
+        enabled: true # <3>
+      oauth:
+        enabled: true # <4>
+    token:
+      jwt:
+        enabled: true # <5>
+        signatures:
+          secret:
+            generator: # <6>
+              secret: pleaseChangeThisSecretForANewOne # <7>
+  http:
+    services:
+      userecho: # <8>
+        urls:
+          - "http://localhost:8081" # <9>

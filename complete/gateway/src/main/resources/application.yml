@@ -1,24 +1,24 @@
 micronaut:
-    application:
-        name: gateway
-    server:
-        port: 8080
-#tag::http-services[]
-    http:
-        services:
-            books: # <1>
-                urls:
-                - "http://localhost:8081" # <2>
-#end::http-services[]
-#tag::multitenancy[]
-    multitenancy:
-        propagation:
-            enabled: true # <1>
-            service-id-regex: 'books' # <2>
-        tenantresolver:
-            cookie:
-                enabled: true # <3>
-        tenantwriter:
-            httpheader:
-                enabled: true # <4>
+  application:
+    name: gateway
+  server:
+    port: 8080
+  #tag::http-services[]
+  http:
+    services:
+      books: # <1>
+        urls:
+          - "http://localhost:8081" # <2>
+  #end::http-services[]
+  #tag::multitenancy[]
+  multitenancy:
+    propagation:
+      enabled: true # <1>
+      service-id-regex: 'books' # <2>
+    tenantresolver:
+      cookie:
+        enabled: true # <3>
+    tenantwriter:
+      httpheader:
+        enabled: true # <4>
 #end::multitenancy[]
