@@ -12,15 +12,17 @@ class MockBookFetcher implements BookFetcher {
 
     @Override
     Single<List<String>> fetchBooks() {
-        Single.just(Arrays.asList("The Empty Hearse",
-                "The Hounds of Baskerville",
-                "The Woman",
-                "The Six Thatchers",
-                "The Aluminium Crutch",
-                "The Speckled Blonde",
-                "The Geek Interpreter",
-                "The Great Game",
-                "The Blind Banker",
-                "A Study in Pink"))
+        Single.just(Arrays.asList(
+            "The Empty Hearse",
+            "The Hounds of Baskerville",
+            "The Woman",
+            "The Six Thatchers",
+            "The Aluminium Crutch",
+            "The Speckled Blonde",
+            "The Geek Interpreter",
+            "The Great Game",
+            "The Blind Banker",
+            "A Study in Pink")
+        )
     }
 }

@@ -8,7 +8,6 @@ import io.micronaut.http.annotation.Filter;
 import io.micronaut.http.filter.OncePerRequestHttpServerFilter;
 import io.micronaut.http.filter.ServerFilterChain;
 import io.micronaut.multitenancy.exceptions.TenantNotFoundException;
-import io.micronaut.multitenancy.tenantresolver.CookieTenantResolverConfiguration;
 import io.micronaut.multitenancy.tenantresolver.TenantResolver;
 import org.reactivestreams.Publisher;
 

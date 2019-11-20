@@ -3,7 +3,7 @@ The `views` module provides support for view rendering on the server side and do
 [source,groovy]
 .gateway/build.gradle
 ----
-include::{sourceDir}/gateway/build.gradle[tag=views]
+include::{sourceDir}/gateway/build.gradle[tag=views,indent=0]
 ----
 
 Micronaut includes https://docs.micronaut.io/snapshot/api/io/micronaut/views/handlebars/HandlebarsViewsRenderer.html[HandlebarsViewsRenderer] which uses the http://jknack.github.io/handlebars.java/[Handlebars.java] project.
@@ -13,7 +13,7 @@ In addition to the `views` dependency, add the following dependency to `build.gr
 [source,groovy]
 .gateway/build.gradle
 ----
-include::{sourceDir}/gateway/build.gradle[tag=handlebars]
+include::{sourceDir}/gateway/build.gradle[tag=handlebars,indent=0]
 ----
 
 Create a view which we will use in the `HomeController`.
@@ -33,7 +33,7 @@ include::{sourceDir}/gateway/src/main/java/example/micronaut/HomeController.java
 ----
 
 <1> Annotate with `io.micronaut.http.annotation.Controller` to designate a class as a Micronaut’s controller.
-<2> Constructor dependency injection
+<2> Constructor dependency injection.
 <3> Use `@View` annotation to indicate the view name which should be used to render a view for the route.
 <4> You can specify the HTTP verb that a controller’s action responds to. To respond to a GET request, use the `io.micronaut.http.annotation.Get` annotation.
 <5> A RxJava http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html[Single] is returned with the value read from the server.

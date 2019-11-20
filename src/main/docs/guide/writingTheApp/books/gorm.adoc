@@ -3,7 +3,7 @@ http://gorm.grails.org[GORM] is a powerful Groovy-based data access toolkit for 
 [source, groovy]
 .books/build.gradle
 ----
-include::{sourceDir}/books/build.gradle[tag=gorm]
+include::{sourceDir}/books/build.gradle[tag=gorm,indent=0]
 ----
 
 Configure multiple data sources as described in the http://gorm.grails.org/latest/hibernate/manual/index.html#multipleDataSources[GORM Multiple Data Sources] documentation.

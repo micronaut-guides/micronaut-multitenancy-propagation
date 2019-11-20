@@ -5,7 +5,7 @@ To use the Micronaut’s multitenancy capabilities you must have the multitenanc
 [source,groovy]
 .gateway/build.gradle
 ----
-include::{sourceDir}/gateway/build.gradle[tag=multitenancy]
+include::{sourceDir}/gateway/build.gradle[tag=multitenancy,indent=0]
 ----
 
 [source,yml]
