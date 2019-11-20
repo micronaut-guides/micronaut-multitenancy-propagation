@@ -1,49 +1,49 @@
 plugins {
+    id "groovy"
     //tag::buildscriptDependenciesWebdriverBinaries[]
-    id "com.energizedwork.webdriver-binaries" version "1.4"
+    id "com.github.erdi.webdriver-binaries" version "2.1"
     //end::buildscriptDependenciesWebdriverBinaries[]
-    id 'groovy'
-    id "io.spring.dependency-management" version "1.0.6.RELEASE"
 }
 
 repositories {
-    mavenLocal()
+    mavenCentral()
     jcenter()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "io.micronaut:micronaut-bom:$micronautVersion"
-    }
 }
 
 dependencies {
-    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
-    testCompile("org.spockframework:spock-core:$spockVersion") {
-        exclude group: "org.codehaus.groovy", module: "groovy-all"
-    }
+    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    implementation 'org.codehaus.groovy:groovy-all:2.5.2'
 
-    testCompile "io.micronaut:micronaut-runtime-groovy"
-    testCompile "io.micronaut:micronaut-http-client"
+    testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
 
-    testCompile "io.micronaut:micronaut-security-jwt"
+    testImplementation "io.micronaut:micronaut-runtime-groovy"
+    testImplementation "io.micronaut:micronaut-http-client"
+
+    testImplementation "io.micronaut:micronaut-security-jwt"
 
     //tag::geb[]
-    testCompile "org.gebish:geb-spock:$gebVersion"
+    testImplementation "org.gebish:geb-spock:$gebVersion"
     testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
     testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
-    testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
-    testCompile "org.seleniumhq.selenium:selenium-api:$seleniumVersion"
+    testImplementation "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
+    testImplementation "org.seleniumhq.selenium:selenium-api:$seleniumVersion"
     //tag::geb[]
 
-    testCompile project(":complete/gebpages")
+    testImplementation project(":complete:gebpages")
 }
+
+apply from: "${rootProject.projectDir}/gradle/testVerbose.gradle"
+
 
 //tag::webdriverBinaries[]
 webdriverBinaries {
-    chromedriver '2.42'
-    geckodriver '0.22.0'
+    chromedriver {
+        version = chromeDriverVersion
+    }
+    geckodriver {
+        version = geckoDriverVersion
+    }
 }
 //end::webdriverBinaries[]
 

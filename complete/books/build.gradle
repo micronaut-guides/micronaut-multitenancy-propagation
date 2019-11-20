@@ -1,49 +1,36 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-    dependencies {
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
-    }
+plugins {
+    id "net.ltgt.apt-eclipse" version "0.21"
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "application"
+    id "groovy"
 }
 
 version "0.1"
-group "example.micronaut"
-
-apply plugin:"io.spring.dependency-management"
-apply plugin:"com.github.johnrengelman.shadow"
-apply plugin:"application"
-apply plugin:"groovy"
-
+group "examppe.micronaut"
 
 repositories {
-    mavenLocal()
     mavenCentral()
+    jcenter()
     //tag::gormrepository[]
-    maven { url "https://repo.grails.org/grails/core" }
+//    maven { url "https://repo.grails.org/grails/core" }
     //end::gormrepository[]
-    maven { url "https://jcenter.bintray.com" }
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "io.micronaut:micronaut-bom:$micronautVersion"
-    }
+configurations {
+    // for dependencies that are needed for development only
+    developmentOnly
 }
 
 dependencies {
-    compile "io.micronaut:micronaut-runtime-groovy"
-    compile "io.micronaut:micronaut-http-client"
-    compile "io.micronaut:micronaut-http-server-netty"
-    compileOnly "io.micronaut:micronaut-inject-groovy"
-    runtime "ch.qos.logback:logback-classic:1.2.3"
-    testCompile "io.micronaut:micronaut-inject-groovy"
-    testCompile("org.spockframework:spock-core:1.1-groovy-2.4") {
-        exclude group: "org.codehaus.groovy", module: "groovy-all"
-    }
+    annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+    annotationProcessor "io.micronaut:micronaut-validation"
+    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    implementation "io.micronaut:micronaut-inject"
+    implementation "io.micronaut:micronaut-validation"
+    implementation "io.micronaut:micronaut-runtime"
+    implementation "io.micronaut:micronaut-http-server-netty"
+    implementation "io.micronaut:micronaut-http-client"
 
     //tag::management[]
     runtime "io.micronaut:micronaut-management"
@@ -54,21 +41,52 @@ dependencies {
     //end::multitenancy-gorm[]
 
     //tag::gorm[]
-    compile("io.micronaut.configuration:micronaut-hibernate-gorm") {
+    implementation("io.micronaut.configuration:micronaut-hibernate-gorm") {
         exclude group: 'org.grails', module: 'grails-datastore-gorm-hibernate5'
     }
-    compile "org.grails:grails-datastore-gorm-hibernate5:7.0.0.RELEASE"
+    implementation "org.grails:grails-datastore-gorm-hibernate5:7.0.1.RELEASE"
     runtime "com.h2database:h2:1.4.192"
     runtime "org.apache.tomcat:tomcat-jdbc:8.5.0"
     runtime "org.apache.tomcat.embed:tomcat-embed-logging-log4j:8.5.0"
     runtime "org.slf4j:slf4j-api:1.7.10"
     //end::gorm[]
+
+    //tag::spock[]
+    testImplementation("org.spockframework:spock-core") {
+        exclude group: "org.codehaus.groovy", module: "groovy-all"
+    }
+    testImplementation "io.micronaut:micronaut-inject-groovy"
+    testImplementation "io.micronaut.test:micronaut-test-spock"
+    //end::spock[]
+
+    runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
+
+    testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+    testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testImplementation "io.micronaut.test:micronaut-test-junit5"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.5.0"
+}
+
+test.classpath += configurations.developmentOnly
+
+mainClassName = "example.micronaut.Application"
+// use JUnit 5 platform
+test {
+    useJUnitPlatform()
+}
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
+    options.compilerArgs.add('-parameters')
 }
 
 shadowJar {
     mergeServiceFiles()
 }
 
-run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
+run.classpath += configurations.developmentOnly
+run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
 
-mainClassName = "example.micronaut.Application"
+apply from: "${rootProject.projectDir}/gradle/testVerbose.gradle"

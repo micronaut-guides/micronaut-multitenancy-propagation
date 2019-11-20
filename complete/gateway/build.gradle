@@ -1,108 +1,113 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-    dependencies {
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
-        classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
-        classpath "net.ltgt.gradle:gradle-apt-plugin:0.15"
-//tag::buildscriptDependenciesWebdriverBinaries[]
-        classpath "gradle.plugin.com.energizedwork.webdriver-binaries:webdriver-binaries-gradle-plugin:$webdriverBinariesVersion"
-//end::buildscriptDependenciesWebdriverBinaries[]
-    }
+plugins {
+    id "net.ltgt.apt-eclipse" version "0.21"
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "application"
+    id "groovy"
+    //tag::buildscriptDependenciesWebdriverBinaries[]
+    id "com.github.erdi.webdriver-binaries" version "2.1"
+    //end::buildscriptDependenciesWebdriverBinaries[]
 }
 
 version "0.1"
 group "examppe.micronaut"
 
-apply plugin:"io.spring.dependency-management"
-apply plugin:"com.github.johnrengelman.shadow"
-apply plugin:"application"
-apply plugin:"groovy"
-apply plugin:"net.ltgt.apt-eclipse"
-apply plugin:"net.ltgt.apt-idea"
-//tag::applyPluginWebdriverBinaries[]
-apply plugin:"com.energizedwork.webdriver-binaries"
-//end::applyPluginWebdriverBinaries[]
-
 repositories {
-    mavenLocal()
     mavenCentral()
-    maven { url "https://jcenter.bintray.com" }
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    jcenter()
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "io.micronaut:micronaut-bom:$micronautVersion"
-    }
+configurations {
+    // for dependencies that are needed for development only
+    developmentOnly
 }
 
 dependencies {
+    annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     annotationProcessor "io.micronaut:micronaut-inject-java"
-    compile "io.micronaut:micronaut-inject"
-    compile "io.micronaut:micronaut-runtime"
-    compile "io.micronaut:micronaut-http-client"
-    compile "io.micronaut:micronaut-http-server-netty"
-    compileOnly "io.micronaut:micronaut-inject-java"
-    runtime "ch.qos.logback:logback-classic:1.2.3"
-    testCompile "io.micronaut:micronaut-inject-java"
+    annotationProcessor "io.micronaut:micronaut-validation"
+    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    implementation "io.micronaut:micronaut-inject"
+    //tag::validator[]
+    implementation "io.micronaut:micronaut-validation"
+    //end::validator[]
+    implementation "io.micronaut:micronaut-runtime"
+    implementation "io.micronaut:micronaut-http-server-netty"
+    implementation "io.micronaut:micronaut-http-client"
 
     //tag::views[]
-    compile "io.micronaut:micronaut-views"
+    implementation "io.micronaut:micronaut-views"
     //end::views[]
-
-    //tag::validator[]
-    compile "io.micronaut.configuration:micronaut-hibernate-validator"
-    //end::validator[]
 
     //tag::handlebars[]
     runtime "com.github.jknack:handlebars:4.1.0"
     //end::handlebars[]
 
-    //tag::spock[]
-    testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
-    testCompile "org.spockframework:spock-core:$spockVersion"
-    //end::spock[]
-
-    //tag::inject-groovy[]
-    testCompile "io.micronaut:micronaut-inject-groovy"
-    //end::inject-groovy[]
-
     //tag::geb[]
-    testCompile "org.gebish:geb-spock:$gebVersion"
+    testImplementation "org.gebish:geb-spock:$gebVersion"
     testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
     testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
-    testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
-    testCompile "org.seleniumhq.selenium:selenium-api:$seleniumVersion"
+    testImplementation "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
+    testImplementation "org.seleniumhq.selenium:selenium-api:$seleniumVersion"
     //tag::geb[]
 
     //tag::multitenancy[]
-    compile "io.micronaut:micronaut-multitenancy"
+    implementation "io.micronaut:micronaut-multitenancy"
     //end::multitenancy[]
 
     //tag::management[]
     runtime "io.micronaut:micronaut-management"
     //end::management[]
 
-    testCompile project(":complete/gebpages")
+    testCompile project(":complete:gebpages")
+
+    //tag::spock[]
+    testImplementation("org.spockframework:spock-core") {
+        exclude group: "org.codehaus.groovy", module: "groovy-all"
+    }
+    testImplementation "io.micronaut:micronaut-inject-groovy"
+    testImplementation "io.micronaut.test:micronaut-test-spock"
+    //end::spock[]
+
+    runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
+
+    testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+    testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testImplementation "io.micronaut.test:micronaut-test-junit5"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.5.0"
+}
+
+test.classpath += configurations.developmentOnly
+
+mainClassName = "example.micronaut.Application"
+// use JUnit 5 platform
+test {
+    useJUnitPlatform()
+}
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
+    options.compilerArgs.add('-parameters')
 }
 
 shadowJar {
     mergeServiceFiles()
 }
 
-run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
+run.classpath += configurations.developmentOnly
+run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
 
-mainClassName = "example.micronaut.Application"
-compileJava.options.compilerArgs += '-parameters'
-compileTestJava.options.compilerArgs += '-parameters'
+apply from: "${rootProject.projectDir}/gradle/testVerbose.gradle"
 
 //tag::webdriverBinaries[]
 webdriverBinaries {
-    chromedriver '2.42'
-    geckodriver '0.22.0'
+    chromedriver {
+        version = chromeDriverVersion
+    }
+    geckodriver {
+        version = geckoDriverVersion
+    }
 }
 //end::webdriverBinaries[]
 

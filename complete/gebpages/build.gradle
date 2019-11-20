@@ -1,9 +1,12 @@
-apply plugin: 'groovy'
+plugins {
+    id "groovy"
+}
 
 repositories {
+    mavenCentral()
     jcenter()
 }
 dependencies {
-    compile "org.gebish:geb-core:$gebVersion"
-    compile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
+    implementation "org.gebish:geb-core:$gebVersion"
+    implementation "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
 }
