@@ -32,4 +32,9 @@ public class HomePageFilter extends OncePerRequestHttpServerFilter {
         }
         return chain.proceed(request);
     }
+
+    @Override
+    public int getOrder() {
+        return LOWEST_PRECEDENCE - 100;
+    }
 }
