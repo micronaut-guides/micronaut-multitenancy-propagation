@@ -3,11 +3,15 @@ micronaut:
     name: books
   server:
     port: 8081
+endpoints:
+  health:
+    enabled: true
+    sensitive: false
 #tag::gorm[]
 grails:
   gorm:
     multiTenancy:
-      mode: DATABASE # <1>
+      mode: 'DATABASE' # <1>
       tenantResolverClass: 'io.micronaut.multitenancy.gorm.HttpHeaderTenantResolver' # <2>
 #end::gorm[]
 #tag::datasources[]

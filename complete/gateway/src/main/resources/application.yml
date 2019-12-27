@@ -1,16 +1,13 @@
 micronaut:
   application:
     name: gateway
-  server:
-    port: 8080
-  #tag::http-services[]
-  http:
-    services:
-      books: # <1>
-        urls:
-          - "http://localhost:8081" # <2>
-  #end::http-services[]
-  #tag::multitenancy[]
+endpoints:
+  health:
+    enabled: true
+    sensitive: false
+---
+#tag::multitenancy[]
+micronaut:
   multitenancy:
     propagation:
       enabled: true # <1>
@@ -22,3 +19,12 @@ micronaut:
       httpheader:
         enabled: true # <4>
 #end::multitenancy[]
+---
+#tag::http-services[]
+micronaut:
+  http:
+    services:
+      books: # <1>
+        urls:
+          - "http://localhost:8081" # <2>
+#end::http-services[]

@@ -11,11 +11,7 @@ include::{sourceDir}/gateway/build.gradle[tag=multitenancy,indent=0]
 [source,yml]
 .gateway/src/main/resources/application.yml
 ----
-micronaut:
-...
-
 include::{sourceDir}/gateway/src/main/resources/application.yml[tag=multitenancy]
-
 ----
 
 <1> Enable tenant propagation.

@@ -24,9 +24,6 @@ Configure the urls for the service id `books`. Modify `application.yml`
 [source,yml]
 .gateway/src/main/resources/application.yml
 ----
-micronaut:
-...
-
 include::{sourceDir}/gateway/src/main/resources/application.yml[tag=http-services]
 ----
 

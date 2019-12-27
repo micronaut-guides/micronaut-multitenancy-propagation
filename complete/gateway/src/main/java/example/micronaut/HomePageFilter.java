@@ -16,6 +16,7 @@ import java.net.URI;
 @Filter("/") // <1>
 public class HomePageFilter extends OncePerRequestHttpServerFilter {
 
+    public static final String TENANT = "/tenant";
     private final TenantResolver tenantResolver;
 
     public HomePageFilter(TenantResolver tenantResolver) { // <2>
@@ -27,7 +28,7 @@ public class HomePageFilter extends OncePerRequestHttpServerFilter {
         try {
             tenantResolver.resolveTenantIdentifier();
         } catch (TenantNotFoundException e) {
-            return Publishers.just(HttpResponse.seeOther(URI.create("/tenant")));
+            return Publishers.just(HttpResponse.seeOther(URI.create(TENANT)));
         }
         return chain.proceed(request);
     }
