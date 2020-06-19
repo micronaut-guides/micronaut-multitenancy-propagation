@@ -1,68 +1,73 @@
 plugins {
     id "groovy"
-    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "com.github.johnrengelman.shadow" version "6.0.0"
     id "application"
 }
-
-
 
 version "0.1"
 group "example.micronaut"
 
 repositories {
     mavenCentral()
-    maven { url "https://jcenter.bintray.com" }
-    //tag::gormrepository[]
-    maven { url "https://repo.grails.org/grails/core" }
-    //end::gormrepository[]
+    jcenter()
 }
 
 configurations {
     // for dependencies that are needed for development only
-    developmentOnly 
+    developmentOnly
 }
 
 dependencies {
-    compileOnly platform("io.micronaut:micronaut-bom:$micronautVersion")
-    compileOnly "io.micronaut:micronaut-inject-groovy"
-    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
-    implementation "io.micronaut:micronaut-runtime-groovy"
-    implementation "io.micronaut:micronaut-validation"
-    implementation "io.micronaut:micronaut-http-server-netty"
-    implementation "io.micronaut:micronaut-http-client"
+    compileOnly(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    compileOnly("io.micronaut:micronaut-inject-groovy")
+    implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    implementation("io.micronaut:micronaut-inject")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.groovy:micronaut-runtime-groovy")
+    implementation("io.micronaut:micronaut-http-server-netty")
+    implementation("io.micronaut:micronaut-http-client")
+
+    runtimeOnly("ch.qos.logback:logback-classic")
 
     //tag::management[]
     runtime "io.micronaut:micronaut-management"
     //end::management[]
 
     //tag::multitenancy-gorm[]
-    runtime "io.micronaut.configuration:micronaut-multitenancy-gorm"
+    implementation("io.micronaut:micronaut-multitenancy")
+    implementation("io.micronaut.groovy:micronaut-multitenancy-gorm")
     //end::multitenancy-gorm[]
 
     //tag::gorm[]
-    implementation("io.micronaut.configuration:micronaut-hibernate-gorm") {
-        exclude group: 'org.grails', module: 'grails-datastore-gorm-hibernate5'
-    }
-    implementation "org.grails:grails-datastore-gorm-hibernate5:7.0.1.RELEASE"
-    runtime "com.h2database:h2:1.4.192"
-    runtime "org.apache.tomcat:tomcat-jdbc:8.5.0"
-    runtime "org.apache.tomcat.embed:tomcat-embed-logging-log4j:8.5.0"
-    runtime "org.slf4j:slf4j-api:1.7.10"
+    implementation("io.micronaut.beanvalidation:micronaut-hibernate-validator")
+    implementation("io.micronaut.groovy:micronaut-hibernate-gorm")
+    runtimeOnly("com.h2database:h2")
+    runtimeOnly("org.apache.tomcat:tomcat-jdbc")
     //end::gorm[]
 
-    runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
-    testCompileOnly platform("io.micronaut:micronaut-bom:$micronautVersion")
-    testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+
+    testImplementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    testImplementation("io.micronaut:micronaut-inject-groovy")
     testImplementation("org.spockframework:spock-core") {
         exclude group: "org.codehaus.groovy", module: "groovy-all"
     }
-    testImplementation "io.micronaut:micronaut-inject-groovy"
-    testImplementation "io.micronaut.test:micronaut-test-spock"
+    testImplementation("io.micronaut.test:micronaut-test-spock")
 }
 
 test.classpath += configurations.developmentOnly
 
 mainClassName = "example.micronaut.Application"
+
+// use JUnit 5 platform
+test {
+    useJUnitPlatform()
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion('1.8')
+    targetCompatibility = JavaVersion.toVersion('1.8')
+}
+
 tasks.withType(GroovyCompile) {
     groovyOptions.forkOptions.jvmArgs.add('-Dgroovy.parameters=true')
 }
@@ -71,7 +76,16 @@ shadowJar {
     mergeServiceFiles()
 }
 
-run.classpath += configurations.developmentOnly
-run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+tasks.withType(JavaExec) {
+    classpath += configurations.developmentOnly
+    jvmArgs('-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+    if (gradle.startParameter.continuous) {
+        systemProperties(
+                'micronaut.io.watch.restart':'true',
+                'micronaut.io.watch.enabled':'true',
+                "micronaut.io.watch.paths":"src/main"
+        )
+    }
+}
 
 apply from: "${rootProject.projectDir}/gradle/testVerbose.gradle"

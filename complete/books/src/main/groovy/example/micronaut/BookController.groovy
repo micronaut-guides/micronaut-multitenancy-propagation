@@ -1,7 +1,9 @@
 package example.micronaut
 
+import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Produces
 
 @Controller("/books") // <1>
 class BookController {
@@ -13,7 +15,7 @@ class BookController {
     }
 
     @Get
-    List<String> index() {
-        bookService.findAll()*.title
+    List<BookResponse> index() {
+        bookService.findAll().collect { it -> new BookResponse(title: it.title) }
     }
 }

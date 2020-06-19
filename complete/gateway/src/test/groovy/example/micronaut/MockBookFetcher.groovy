@@ -10,8 +10,8 @@ import javax.inject.Singleton
 class MockBookFetcher implements BookFetcher {
 
     @Override
-    Single<List<String>> fetchBooks() {
-        Single.just(Arrays.asList(
+    Single<List<Book>> fetchBooks() {
+        Single.just([
             "The Empty Hearse",
             "The Hounds of Baskerville",
             "The Woman",
@@ -21,7 +21,7 @@ class MockBookFetcher implements BookFetcher {
             "The Geek Interpreter",
             "The Great Game",
             "The Blind Banker",
-            "A Study in Pink")
+            "A Study in Pink"].collect { new Book(it) }
         )
     }
 }

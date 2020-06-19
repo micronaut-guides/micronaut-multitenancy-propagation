@@ -2,5 +2,7 @@ Create the microservice:
 
 [source, bash]
 ----
-mn create-app example.micronaut.gateway
+mn create-app example.micronaut.gateway --test spock
 ----
+
+In the previous command, we are generating a Micronaut app and telling the CLI to use https://spockframework.org[Spock] as the test framework.

@@ -1,3 +1,5 @@
+include::{commondir}/common-micronautonex.adoc[]
+
 Lets describe the microservices you are going to build through the tutorial.
 
 * `gateway` - A microservice which resolves a Tenant ID with a Cookie and propagates the Tenant ID to outgoing requests via HTTP Header.

@@ -2,6 +2,7 @@ package example.micronaut
 
 import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
+import io.micronaut.http.MediaType
 import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.annotation.MicronautTest
@@ -14,23 +15,29 @@ class BookControllerSpec extends Specification {
 
     @Inject
     @Client("/")
-    RxHttpClient client;
+    RxHttpClient client
 
     void "test hello world response"() {
         when:
-        HttpRequest request = HttpRequest.GET('/books').header("tenantId", "sherlock")
-        List<String> rsp  = client.toBlocking().retrieve(request, Argument.listOf(String))
+        HttpRequest request = booksRequest("sherlock")
+        List<BookResponse> rsp  = client.toBlocking().retrieve(request, Argument.listOf(BookResponse))
 
         then:
         rsp
-        rsp == ['Sherlock diary']
+        rsp.size() == 1
+        rsp.first().title == 'Sherlock diary'
 
         when:
-        request = HttpRequest.GET('/books').header("tenantId", "watson")
-        rsp  = client.toBlocking().retrieve(request, Argument.listOf(String))
+        request = booksRequest("watson")
+        rsp  = client.toBlocking().retrieve(request, Argument.listOf(BookResponse))
 
         then:
-        rsp
-        rsp == ['Watson diary']
+        rsp.size() == 1
+        rsp.first().title == 'Watson diary'
+    }
+
+    private static HttpRequest booksRequest(String tenantId) {
+        HttpRequest.GET('/books')
+                .header("tenantId", tenantId)
     }
 }

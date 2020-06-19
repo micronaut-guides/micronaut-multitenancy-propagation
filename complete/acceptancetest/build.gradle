@@ -1,58 +1,32 @@
 plugins {
     id "groovy"
-    //tag::buildscriptDependenciesWebdriverBinaries[]
-    id "com.github.erdi.webdriver-binaries" version "2.1"
-    //end::buildscriptDependenciesWebdriverBinaries[]
 }
 
 repositories {
-    mavenCentral()
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
-    implementation 'org.codehaus.groovy:groovy-all:2.5.6'
+    compileOnly(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    compileOnly("io.micronaut:micronaut-inject-groovy")
 
-    testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
-    testImplementation 'org.spockframework:spock-core:1.3-groovy-2.5'
-
-    testImplementation "io.micronaut:micronaut-runtime-groovy"
+    testImplementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    testImplementation("org.spockframework:spock-core") {
+        exclude group: "org.codehaus.groovy", module: "groovy-all"
+    }
     testImplementation "io.micronaut:micronaut-http-client"
 
-    testImplementation "io.micronaut:micronaut-security-jwt"
-
-    //tag::geb[]
-    testImplementation "org.gebish:geb-spock:$gebVersion"
+    testImplementation "org.gebish:geb-spock:3.4"
     testCompile "org.seleniumhq.selenium:htmlunit-driver:2.35.1"
     testRuntime 'net.sourceforge.htmlunit:htmlunit:2.35.0'
-    testRuntime "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
-    testRuntime "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
-    testImplementation "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
-    testImplementation "org.seleniumhq.selenium:selenium-api:$seleniumVersion"
-    //tag::geb[]
-
-    testImplementation project(":complete:gebpages")
+    testImplementation "org.seleniumhq.selenium:selenium-support:3.141.59"
 }
+
+// use JUnit 5 platform
+test {
+    useJUnitPlatform()
+}
+
 
 apply from: "${rootProject.projectDir}/gradle/testVerbose.gradle"
-
-
-//tag::webdriverBinaries[]
-webdriverBinaries {
-    chromedriver {
-        version = chromeDriverVersion
-    }
-    geckodriver {
-        version = geckoDriverVersion
-    }
-}
-//end::webdriverBinaries[]
-
-//tag::taskWithTypeTest[]
-tasks.withType(Test) {
-    systemProperty "geb.env", System.getProperty('geb.env')
-    systemProperty "webdriver.chrome.driver", System.getProperty('webdriver.chrome.driver')
-    systemProperty "webdriver.gecko.driver", System.getProperty('webdriver.gecko.driver')
-}
-//end::taskWithTypeTest[]

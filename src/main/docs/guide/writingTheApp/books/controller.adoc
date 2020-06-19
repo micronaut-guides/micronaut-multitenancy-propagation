@@ -1,6 +1,12 @@
 Create a controller to expose the `/books` endpoint.
 
 [source, groovy]
+.books/src/main/groovy/example/micronaut/BookResponse.groovy
+----
+include::{sourceDir}/books/src/main/groovy/example/micronaut/BookResponse.groovy[]
+----
+
+[source, groovy]
 .books/src/main/groovy/example/micronaut/BookController.groovy
 ----
 include::{sourceDir}/books/src/main/groovy/example/micronaut/BookController.groovy[]

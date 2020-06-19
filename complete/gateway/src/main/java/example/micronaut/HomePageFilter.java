@@ -1,5 +1,6 @@
 package example.micronaut;
 
+import io.micronaut.http.filter.ServerFilterPhase;
 import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
@@ -35,6 +36,6 @@ public class HomePageFilter extends OncePerRequestHttpServerFilter {
 
     @Override
     public int getOrder() {
-        return LOWEST_PRECEDENCE - 100;
+        return ServerFilterPhase.SECURITY.order();
     }
 }

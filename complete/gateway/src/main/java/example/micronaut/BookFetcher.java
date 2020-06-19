@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface BookFetcher {
 
-    Single<List<String>> fetchBooks();
+    Single<List<Book>> fetchBooks();
 }

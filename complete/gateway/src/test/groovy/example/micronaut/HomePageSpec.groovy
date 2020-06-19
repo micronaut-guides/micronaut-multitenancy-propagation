@@ -10,11 +10,11 @@ class HomePageSpec extends GebSpec {
 
     @AutoCleanup
     @Shared
-    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer, [:])
+    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer, [:]) // <1>
 
     def "verify tenant can be selected works"() {
         given:
-        browser.baseUrl = "http://localhost:${embeddedServer.port}"
+        browser.baseUrl = "http://localhost:${embeddedServer.port}" // <2>
 
         when:
         go "/"

@@ -1,6 +1,12 @@
 Create an interface to encapsulate the communication with the `books` microservice which we will create shortly.
 
 [source,java]
+.gateway/src/main/java/example/micronaut/Book.java
+----
+include::{sourceDir}/gateway/src/main/java/example/micronaut/Book.java[]
+----
+
+[source,java]
 .gateway/src/main/java/example/micronaut/BookFetcher.java
 ----
 include::{sourceDir}/gateway/src/main/java/example/micronaut/BookFetcher.java[]

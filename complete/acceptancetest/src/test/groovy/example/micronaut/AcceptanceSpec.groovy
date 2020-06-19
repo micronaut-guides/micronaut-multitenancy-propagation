@@ -1,32 +1,38 @@
 package example.micronaut
 
 import geb.spock.GebSpec
-import io.micronaut.context.ApplicationContext
-import io.micronaut.http.client.RxHttpClient
-import org.junit.Assume
-import spock.lang.AutoCleanup
-import spock.lang.IgnoreIf
-import spock.lang.Shared
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.client.BlockingHttpClient
+import io.micronaut.http.client.HttpClient
+import io.micronaut.http.client.exceptions.HttpClientException
+import spock.lang.Requires
 
-@IgnoreIf({ System.getenv("TRAVIS") })
-class AcceptanceSpec extends GebSpec implements MicroserviceHealth {
+class AcceptanceSpec extends GebSpec {
 
-    @Shared
-    @AutoCleanup
-    ApplicationContext applicationContext = ApplicationContext.run()
+    static final String BOOKS_URL = 'http://localhost:8081'
+    static final String GATEWAY_URL = 'http://localhost:8080'
 
-    @Shared
-    @AutoCleanup
-    RxHttpClient client = applicationContext.createBean(RxHttpClient, 'http://localhost:8080')
-
-    def "verifies three microservices collaborate together with JWT authentication"() {
-
-        given:
-        Assume.assumeTrue(isUp('http://localhost:8080'))
-        Assume.assumeTrue(isUp('http://localhost:8081'))
+    @Requires( {
+        Closure isUp = { client, url ->
+            String microservicesUrl = url.endsWith('/health') ? url : "${url}/health"
+            try {
+                StatusResponse statusResponse = client.retrieve(HttpRequest.GET(microservicesUrl), StatusResponse)
+                if ( statusResponse.status == 'UP' ) {
+                    return true
+                }
+            } catch (HttpClientException e) {
+                println "HTTP Client exception for $microservicesUrl $e.message"
+            }
+            return false
+        }
+        BlockingHttpClient booksClient = HttpClient.create(new URL(BOOKS_URL)).toBlocking()
+        BlockingHttpClient analyticsClient = HttpClient.create(new URL(GATEWAY_URL)).toBlocking()
+        return isUp(booksClient, BOOKS_URL) && isUp(analyticsClient, GATEWAY_URL)
+    })
+    def "verifies tenant id is propagated"() {
 
         when:
-        browser.baseUrl = 'http://localhost:8080'
+        browser.baseUrl = GATEWAY_URL
         browser.go("/")
 
         then:
@@ -58,7 +64,6 @@ class AcceptanceSpec extends GebSpec implements MicroserviceHealth {
         then:
         homePage.numberOfBooks()
         homePage.books() == ['Watson diary']
-
 
     }
 }

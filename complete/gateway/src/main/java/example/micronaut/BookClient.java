@@ -14,5 +14,5 @@ public interface BookClient extends BookFetcher {
 
     @Override
     @Get("/books") // <3>
-    Single<List<String>> fetchBooks();
+    Single<List<Book>> fetchBooks();
 }

@@ -8,8 +8,9 @@ import io.reactivex.Single;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-@Controller("/") // <1>
+@Controller // <1>
 public class HomeController {
 
     private final BookFetcher bookFetcher;
@@ -24,7 +25,7 @@ public class HomeController {
         return bookFetcher.fetchBooks().map(books -> {
             Map<String, Object> model = new HashMap<>();
             model.put("pagetitle", "Home");
-            model.put("books", books);
+            model.put("books", books.stream().map(Book::getTitle).collect(Collectors.toList()));
             return HttpResponse.ok(model);
         });
     }

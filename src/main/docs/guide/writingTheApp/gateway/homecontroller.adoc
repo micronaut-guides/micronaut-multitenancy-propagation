@@ -6,15 +6,7 @@ The `views` module provides support for view rendering on the server side and do
 include::{sourceDir}/gateway/build.gradle[tag=views,indent=0]
 ----
 
-Micronaut includes https://docs.micronaut.io/snapshot/api/io/micronaut/views/handlebars/HandlebarsViewsRenderer.html[HandlebarsViewsRenderer] which uses the http://jknack.github.io/handlebars.java/[Handlebars.java] project.
-
-In addition to the `views` dependency, add the following dependency to `build.gradle`
-
-[source,groovy]
-.gateway/build.gradle
-----
-include::{sourceDir}/gateway/build.gradle[tag=handlebars,indent=0]
-----
+The previous dependency includes https://micronaut-projects.github.io/micronaut-views/latest/api/index.html[HandlebarsViewsRenderer] which uses the http://jknack.github.io/handlebars.java/[Handlebars.java] project.
 
 Create a view which we will use in the `HomeController`.
 
