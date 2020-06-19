@@ -7,9 +7,45 @@ Provide a `BookFetcher` bean replacement for the Test environment.
 include::{sourceDir}/gateway/src/test/groovy/example/micronaut/MockBookFetcher.groovy[]
 ----
 
-Create a tests which verifies the flow using Geb.
+Create a tests which verifies the flow using https://gebish.org[Geb].
+
+Add dependencies for Geb:
 
 [source,java]
+.gateway/build.gradle
+----
+dependencies {
+...
+..
+include::{sourceDir}/gateway/build.gradle[tag=geb]
+}
+----
+
+Add a https://gebish.org/manual/current/#configuration[Geb configuration script]:
+
+[source,groovy]
+.gateway/src/test/resources/GebConfig.groovy
+----
+include::{sourceDir}/gateway/src/test/resources/GebConfig.groovy[]
+----
+
+Create two Geb Pages:
+
+[source,groovy]
+.gateway/src/test/groovy/example/micronaut/HomePage.groovy
+----
+include::{sourceDir}/gateway/src/test/groovy/example/micronaut/HomePage.groovy[]
+----
+
+[source,groovy]
+.gateway/src/test/groovy/example/micronaut/TenantPage.groovy
+----
+include::{sourceDir}/gateway/src/test/groovy/example/micronaut/TenantPage.groovy[]
+----
+
+Write a test which verifies that when the user visits the home page without a tenant is redirected to the tenant selection page. After tenant selection, the home page loads a set of books.
+
+[source,groovy]
 .gateway/src/test/groovy/example/micronaut/HomePageSpec.groovy
 ----
 include::{sourceDir}/gateway/src/test/groovy/example/micronaut/HomePageSpec.groovy[]

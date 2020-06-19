@@ -17,7 +17,7 @@ class HomePageSpec extends GebSpec {
         browser.baseUrl = "http://localhost:${embeddedServer.port}" // <2>
 
         when:
-        go "/"
+        via HomePage
 
         then:
         at TenantPage
